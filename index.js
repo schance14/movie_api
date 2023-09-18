@@ -257,9 +257,9 @@ app.get('/movies/:title', (req,res)=> {
 //READ
 app.get('/movies/genre/:genreName', (req,res)=> {
     const { genreName } = req.params;
-    const movie = movies.find( movie => movie.genre.name === genreName).genre;
+    const genre = movies.find( movie => movie.genre.name === genreName).genre;
 
-    if (movie) {
+    if (genre) {
         res.status(200).json(genre);
     } else {
         res.status(400).send('not available')
