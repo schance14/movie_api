@@ -1,13 +1,98 @@
 <!DOCTYPE html>
 <html>
     <head>
-   <title> Movie Finder App </title> 
+   <title> FilmFinder App </title> 
    </head>
 
    <body>
-    <h1>Movie Finder App</h1>
+    <h1>FilmFinder App </h1>
 
-This is a web application that stores data about different movies as well as provides users with a variety of information on a list of movies.
+        <p> This is a web application that stores data about different movies as well as provides users with a variety of information
+ on a list of movies.</p>
+
+<div class="container">
+    <h2> App Documentation </h2>
+    
+</div>
+
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th> Request </th>
+                <th> Url </th>
+                <th> HTTP Method </th>
+                <th> Request Data Format </th>
+                <th> Response Data Bodt Format </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> Get list of all movies </td>
+                <td> /movies </td>
+                <td> GET </td>
+                <td> none </td>
+                <td> json data holding data about all movies. </td>
+            </tr>
+            <tr>
+                <td> Get data about a single movie by the title </td>
+                <td> /movies/:title</td>
+                <td> GET </td>
+                <td> none </td>
+                <td> a json object holding data about a single movie title. </td>
+            </tr>
+            <tr>
+                <td> Get data about a genre by genre name </td>
+                <td> /movies/genre/:genreName </td>
+                <td> GET </td>
+                <td> none </td>
+                <td> a json object holding data about a genre. </td>
+            </tr>
+            <tr>
+                <td> Get data about a director by director name </td>
+                <td> /movies/directors/:directorName </td>
+                <td> GET </td>
+                <td> none </td>
+                <td> a json object holding data about a director. </td>
+            </tr>
+            <tr> 
+                <td> Create a new user to register </td>
+                <td> /users </td>
+                <td> POST </td>
+                <td> json object holding user data information </td>
+                <td> json object holding user data with an ID and array for list of favorite movies. </td>
+            </tr>
+            <tr>
+                <td> Update user information </td>
+                <td> /users/:id </td>
+                <td> PUT </td>
+                <td> json objet holding all the user information with the information that needs to be changed. </td>
+                <td> json object holding all user information along with updated information. </td>
+            </tr>
+            <tr>
+                <td> Adding a favorite movie to the user's favorite list </td>
+                <td> users/:id/:movieTitle </td>
+                <td> POST </td>
+                <td> none </td>
+                <td> json object holding user information with their favorite movie list updated. </td>
+            </tr>
+            <tr>
+                <td> Removing a movie from the user's favorite list </td>
+                <td> users/:id/:movieTitle </td>
+                <td> DELETE </td>
+                <td> none </td>
+                <td> json object with all user information including their updated favorites list. </td>
+            </tr>
+            <tr>
+                <td> Exisiting user to deregister account  </td>
+                <td> /users/:id </td>
+                <td> DELETE </td>
+                <td> none </td>
+                <td> a message indicating that the user was succesfully deregistered.  </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
     </body>
 </html>
