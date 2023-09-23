@@ -44,7 +44,7 @@ let movies = [
         title: "Lord of the Rings",
         "description": " A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron. This movie is adapted from the novel of the same name and shows a different world where different types of creatures live.",
         "genre": {
-            "name":"Fantasy ",
+            "name":"Fantasy",
             "description":"Fantasy fiction is a genre of fiction that involves elements that cannot exist within the real world. This fictional universe includes things like magic, mythology, or life from other worlds or universes."
         },
         "director": {
@@ -160,6 +160,22 @@ let movies = [
         },
         
         "imageUrl":""
+    },
+    {
+        title: "Zoolander",
+        "description": "Derek Zoolander, a dimwitted male model, feels threatened by the new and popular Hansel; after his friends and fellow models are killed in a freak gasoline fight, he announces his retirement from modeling. However, he is persuaded by Mugatu and his lackey, Katinka Inga Shanana, to lead their Derelicte fashion show.",
+        "genre": {
+            "name": "Comedy",
+            "description":"Comedies are light-hearted dramas, crafted to amuse, entertain, and provoke enjoyment." 
+        },
+        "director": {
+            "name": "Ben Stiller",
+            "description":"Benjamin Edward Meara Stiller is an American actor, comedian, and filmmaker. He is the son of the comedians and actors Jerry Stiller and Anne Meara.",
+            "birth":"November 30, 1965"
+        },
+
+        "imageUrl":""
+
     }
 ]; 
 
