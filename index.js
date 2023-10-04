@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 const Models = require('./models.js');
 
 const Movies = Models.Movie;
-const Users = Models.User
+const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/cfDB', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://127.0.0.1:27017/cfDB', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const express = require('express'),
     app = express(),
-    bodyParser = require('body-parser'),
+   bodyParser = require('body-parser'),
     uuid = require('uuid');
 
     app.use(express.json());
@@ -17,7 +17,9 @@ const express = require('express'),
 let users = [
     {
         id: 1,
-        name: "Lenny",
+        Name: "Lenny",
+        Email: "lenny2020@aol.com",
+        Password: "kittycat",
         Birthday: new Date("2000-03-18"),
         favoriteMovies: ["Mean Girls"]
        
@@ -25,12 +27,16 @@ let users = [
     {
         id: 2,
         name: "Patrick",
+        Email: "starfish@yahoo.com",
+        Password: "Spongebob",
         Birthday: new Date("1990-08-06"),
         favoriteMovies: ["Lord of the Rings"]
     },
     {
         id: 3,
         name: "Wolfe",
+        Email: "wolfeee@gmail.com",
+        Password: "TriuneBand",
         Birthday: new Date("1995-02-18"),
         favoriteMovies: ["Lord of the Rings"]
     }
@@ -192,6 +198,183 @@ let movies = [
     }
 ]; 
 
+//CREATE - POST
+
+//to add user
+app.post('/users', async (req, res) => {
+    await Users.findOne({Email: req.body.Email})
+    .then((user) => {
+        if (user) {
+            return res.status(400).send(req.body.Email + 'already exists');
+        } else {
+            Users
+            .create ({
+                Name: req.body.Name,
+                Password: req.body.Password,
+                Email: req.body.Email,
+                Birthday: req.body.Birthday
+            })
+            .then((user) =>{res.status(201).json(user) })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send('Error: '+ error);
+            })
+        }
+    })
+    .catch((error)=> {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+    });
+});
+
+//to add a movie to a users favorites list
+app.post('/users/:userName/movies/:MovieTitle', async (req, res)=> {
+    await Users.findOneAndUpdate({Name: req.params.userName}, {
+        $push: { favoriteMovies: req.params.MovieTitle }
+    },
+    {new: true})
+    .then ((updatedUser) => {
+        res.json(updatedUser);
+    })
+    .catch((err)=> { 
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+    });
+
+//READ - GET
+//default text response when at /
+app.get('/', (req, res) => {
+    res.send('Welcome to Film Finder!');
+});
+
+//get a list of all movies on server
+app.get('/movies', async (req, res) => {
+    await Movies.find()
+    .then((movies)=> {
+        res.status(201).json(movies);
+    })
+    .catch((err)=> {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
+
+//get a specfic movie by title
+app.get('/movies/:title', async (req, res) => {
+    Movies.findOne({ Title: req.params.title})
+    .then ((movies) =>{
+        res.status(200).json(movies);
+    })
+    .catch((err)=> {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
+
+//get data about a genre by specific genre
+app.get('/movies/genres/:genreName', async (req, res)=> {
+    Movies.find({'Genre.Name': req.params.genreName})
+    .then ((movies)=> {
+        res.status(200).json(movies);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
+
+//get data on director by specific name
+app.get('/movies/directors/:directorsName', async (req, res)=> {
+    Movies.find({'Director.Name': req.params.directorsName})
+    .then ((movies)=> {
+        res.status(200).json(movies);
+    })
+    .catch((err)=> {
+        console.error(err);
+        res.status(500).send('Error: ' +err);
+    });
+});
+
+
+//UPDATE - PUT
+
+// update user info
+app.put('/users/:userName', async (req, res)=> {
+    Users.findOneAndUpdate(
+        { Name: req.params.userName }, 
+        { 
+            $set: {
+        Name: req.body.Name,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+    },
+    }, 
+    { new: true}
+    )
+    .then((user)=> {
+        if (!user) {
+            return res.status(404).send('Error: User does not exsist');
+        } else {
+            res.json(user);
+        }
+    })
+    .catch((err)=> {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
+
+//DELETE - DELETE
+
+//Removing a movie from the user's favorite list 
+app.delete('/users/:userName/movies/:MovieTitle', async (req, res)=> {
+    await Users.findOneAndUpdate({Name: req.params.userName}, {
+        $pull: { favoriteMovies: req.params.MovieTitle }
+    },
+    {new: true})
+    .then ((updatedUser) => {
+        res.json(updatedUser);
+    })
+    .catch((err)=> { 
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+    });
+
+    //De-register a user
+    app.delete('/users/:userName', async (req, res)=> {
+        await Users.findOneAndRemove({ Name: req.params.userName})
+        .then((user)=> {
+            if (!user) {
+                res.status(400).send(req.params.userName + ' was not found');
+            } else {
+                res.status(200).send(req.params.userName + ' was deleted.');
+            }
+        })
+        .catch((err)=> {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+    });
+
+
+
+
+app.listen(8080, ()=> {
+    console.log('Your app is listening on port 8080.');
+});
+
+
+
+
+
+
+
+
+
+/* not needed but for reference
 
 //CREATE
 app.post('/users', (req, res)=> {
@@ -309,9 +492,4 @@ app.get('/movies/directors/:directorName', (req,res)=> {
     }
     
 })
-
-
-
-app.listen(8080, ()=> {
-    console.log('Your app is listening on port 8080.');
-});
+*/
