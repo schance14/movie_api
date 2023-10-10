@@ -349,8 +349,8 @@ app.delete('/users/:userName/movies/:MovieTitle', passport.authenticate('jwt', {
     });
     });
 
-    //De-register a user
-    app.delete('/users/:userName', passport.authenticate('jwt', {session: false}), async (req, res)=> {
+  //De-register a user
+app.delete('/users/:userName', passport.authenticate('jwt', {session: false}), async (req, res)=> {
         await Users.findOneAndRemove({ Name: req.params.userName})
         .then((user)=> {
             if (!user) {
