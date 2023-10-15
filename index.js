@@ -211,6 +211,7 @@ let movies = [
 
 //to add user
 app.post('/users', async (req, res) => {
+    let hashedPassword = Users.hashedPassword(req.body.Password);
     await Users.findOne({Email: req.body.Email})
     .then((user) => {
         if (user) {
@@ -219,7 +220,7 @@ app.post('/users', async (req, res) => {
             Users
             .create ({
                 Name: req.body.Name,
-                Password: req.body.Password,
+                Password: hashedPassword,
                 Email: req.body.Email,
                 Birthday: req.body.Birthday
             })
