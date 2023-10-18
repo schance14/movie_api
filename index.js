@@ -23,6 +23,9 @@ const express = require('express'),
     const passport = require('passport');
     require('./passport');
 
+    const { check, validationResult} = require('express-validator');
+
+
 let users = [
     {
         id: 1,
@@ -210,7 +213,19 @@ let movies = [
 //CREATE - POST
 
 //to add user
-app.post('/users', async (req, res) => {
+app.post('/users',
+    [
+        check('Name', 'Name is required').isLength({min: 10}),
+        check('Name', 'Name contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+        check('Password', 'Password is  required').not().isEmpty(),
+        check('Email', 'Email does not appear to be valid').isEmail()
+    ], async (req, res) => {
+        let errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array()});
+        }
+
     let hashedPassword = Users.hashedPassword(req.body.Password);
     await Users.findOne({Email: req.body.Email})
     .then((user) => {
@@ -372,8 +387,9 @@ app.delete('/users/:userName', passport.authenticate('jwt', {session: false}), a
 
 
 
-app.listen(8080, ()=> {
-    console.log('Your app is listening on port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
 });
 
 
