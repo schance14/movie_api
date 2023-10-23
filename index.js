@@ -271,10 +271,10 @@ app.post('/users/:userName/movies/:MovieTitle', passport.authenticate('jwt', {se
 
 //READ - GET
 //default text response when at /
-/*app.get('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send('Welcome to Film Finder!');
 });
-*/
+
 //get a list of all movies on server
 app.get('/movies', passport.authenticate('jwt', {session: false}), async (req, res) => {
     await Movies.find()
