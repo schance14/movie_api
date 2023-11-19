@@ -13,6 +13,6 @@ This is an API for a web application that stores data about different movies as 
 
 
 ## Live Demo
-Check out the app [here] (https://dashboard.heroku.com/apps/film-finder).
+Check out the app [here] (https://film-finder-82ebda24dfc3.herokuapp.com/).
 - Documentation [here] (https://github.com/schance14/movie_api/blob/main/public/documentation.html)
 
