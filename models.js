@@ -14,6 +14,7 @@ let movieSchema = mongoose.Schema({
     Birth: Date,
     Death: Date,
   },
+  ImagePath: String,
 });
 
 let userSchema = mongoose.Schema({
