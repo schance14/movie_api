@@ -194,7 +194,7 @@ app.put(
         if (!user) {
           return res.status(404).send("Error: User does not exsist");
         } else {
-          res.json(Updateduser);
+          res.json(updateduser);
         }
       })
       .catch((err) => {
