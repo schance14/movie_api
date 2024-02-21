@@ -208,13 +208,13 @@ app.put(
 
 //Removing a movie from the user's favorite list
 app.delete(
-  "/users/:userName/movies/:MovieTitle",
+  "/users/:userName/movies/:movieId",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Users.findOneAndUpdate(
       { Name: req.params.userName },
       {
-        $pull: { favoriteMovies: req.params.MovieTitle },
+        $pull: { FavoriteMovies: req.params.movieId },
       },
       { new: true }
     )
