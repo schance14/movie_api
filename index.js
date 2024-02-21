@@ -190,13 +190,16 @@ app.put(
       },
       { new: true }
     )
-      .then((user) => {
-        if (!user) {
-          return res.status(404).send("Error: User does not exsist");
-        } else {
-          res.json(user);
-        }
+      .then((updatedUser) => {
+        res.json(updatedUser);
       })
+      // .then((user) => {
+      //   if (!user) {
+      //     return res.status(404).send("Error: User does not exsist");
+      //   } else {
+      //     res.json(user);
+      //   }
+      // })
       .catch((err) => {
         console.error(err);
         res.status(500).send("Error: " + err);
