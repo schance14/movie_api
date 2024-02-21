@@ -81,13 +81,13 @@ app.post(
 
 //to add a movie to a users favorites list
 app.post(
-  "/users/:userName/movies/:MovieTitle",
+  "/users/:userName/movies/:movieId",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Users.findOneAndUpdate(
       { Name: req.params.userName },
       {
-        $push: { favoriteMovies: req.params.MovieTitle },
+        $push: { favoriteMovies: req.params.movieId },
       },
       { new: true }
     )
