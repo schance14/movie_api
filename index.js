@@ -36,7 +36,7 @@ const { check, validationResult } = require("express-validator");
 app.post(
   "/users",
   [
-    check("Name", "Name is required").isLength({ min: 10 }),
+    check("Name", "Name is required").isLength({ min: 5 }),
     check(
       "Name",
       "Name contains non alphanumeric characters - not allowed."
